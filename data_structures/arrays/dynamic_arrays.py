@@ -25,6 +25,7 @@ class Vector:
         # Blow up if out of bounds
         """
         Time Complexity : O(1)
+        Space Complexity : O(1)
         """
         """
         Logic: 
@@ -42,6 +43,7 @@ class Vector:
         # Delete item at index, shift elements left
         """
         Time Complexity : O(n) where n is size of array
+        Space Complexity : O(1)
         """
         """
         Logic:
@@ -62,6 +64,7 @@ class Vector:
         # Return first index of item, -1 if not found
         """
         Time Complexity : O(n) where n is size of array
+        Space Complexity : O(1)
         """
         """
         Logic:
@@ -81,6 +84,7 @@ class Vector:
         # Insert item at index, shift elements right
         """
         Time Complexity : O(n) when n is self._size
+        Space Complexity: O(1) extra (new array is temporary during resize).
         """
         """
          Logic:
@@ -124,6 +128,7 @@ class Vector:
         # Remove and return last item, resize if size drops to 1/4 capacity
         """
         Time Complexity : O(1), O(n) when resizing
+        Space Complexity : O(1) extra
         """
         """
         Logic:
@@ -158,6 +163,7 @@ class Vector:
         # Add item to end, resize if needed
         """
         Time Complexity : O(1), O(n) where resizing
+        Space Complexity : O(1) extra space(excluding resize) 
         """
         """
         Logic:
@@ -177,6 +183,7 @@ class Vector:
         # Remove all instances of item, shift elements left
         """
         Time Complexity : O(n²) in worst case where n is size of array
+        Space Complexity : O(1)
         """
         """
         Logic:
@@ -197,6 +204,7 @@ class Vector:
         # Private method to resize array
         """
         Time Complexity : O(n) where n is self._size
+        Space Complexity : O(n) extra during execution(peak usage), but O(1) in terms of persistent extra space since self._data swapped
         """
         """
         Logic:
