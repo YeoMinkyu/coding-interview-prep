@@ -1,5 +1,5 @@
 import unittest
-from dynamic_arrays import Vector
+from data_structures.arrays.dynamic_arrays import Vector
 
 class TestVector(unittest.TestCase):
     def setUp(self):
