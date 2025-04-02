@@ -252,8 +252,7 @@ class LinkedList:
         if self.size <= 1:
             return
         
-        # TBD : REVIEW!
-        previous_node = None
+        previous_node = None 
         current_node = self.head
 
         while current_node:
@@ -280,7 +279,6 @@ class LinkedList:
        
         current_node = self.head
 
-        # TBD : REVIEW!
         while current_node.next:
             if value == current_node.next.value:
                 current_node.next = current_node.next.next
