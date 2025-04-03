@@ -249,7 +249,7 @@ class LinkedList:
         # Reverse the entire linked list in place
         if self.empty:
             raise ValueError
-        if self.size <= 1:
+        if not self.head.next:
             return
         
         previous_node = None 
