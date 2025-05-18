@@ -71,6 +71,12 @@ class BitManipulation:
         """
         mask = x >> 31
 
+        """
+        case x > 0: mask = 0 // mask is all's 0
+                    (x ^ 0) => x // x - 0 => x
+        case x < 0: mask = -1 // mask is all's 1
+                    (x ^ 1) => ~x // ~x - (-1) => x
+        """
         return (x ^ mask) - mask
 
         """
