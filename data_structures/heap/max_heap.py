@@ -101,7 +101,7 @@ class MaxHeap:
             return self.heap.pop()
         else:
             max_value = self.heap[0]
-            self.heap[0] = self.heap[len(self.heap) - 1]
+            self.heap[0] = self.heap[-1]
             self.heap.pop()
             self.sift_down(0)
             return max_value
@@ -119,13 +119,29 @@ class MaxHeap:
         """
         if self.is_empty():
             return
-    
-        parent = index
-        left_child_index = (2 * index) + 1
-        right_child_index = (2 * index) + 2
 
+        # Improve codes as an iterative version
+        while True:
+            largest = index
+            left_child_index = (2 * index) + 1
+            right_child_index = (2 * index) + 2
 
-        # TODO: Imporve my code as simple version / Iterative version
+            if left_child_index <= (self.get_size() - 1) and self.heap[largest] < self.heap[left_child_index]:
+                largest = left_child_index
+            if right_child_index <= (self.get_size() - 1) and self.heap[largest] < self.heap[right_child_index]:
+                largest = right_child_index
+            if largest == index:
+                break
+
+            self.heap[index], self.heap[largest] = self.heap[largest], self.heap[index]
+            index = largest
+
+        """
+        Recursive Version of sift down
+        Inefficiency
+            : This sift down is implemented using function stack, its space complexity is O(logn),
+            and there is risk of overflow for large heaps.
+
         if left_child_index > (len(self.heap) - 1): # leaf node
             return
         elif right_child_index > (len(self.heap) - 1): # left child only
@@ -143,11 +159,7 @@ class MaxHeap:
                 if self.heap[parent] < self.heap[right_child_index]:
                     self.heap[parent], self.heap[right_child_index] = self.heap[right_child_index], self.heap[parent]
                     self.sift_down(right_child_index)
-
-    def swap_value(self, first_index: int, second_index: int) -> None:
-        temp_value = self.heap[first_index]
-        self.heap[first_index] = self.heap[second_index]
-        self.heap[second_index] = temp_value
+        """
 
     def remove(self, index: int) -> None:
         """
@@ -193,9 +205,9 @@ class MaxHeap:
         if self.is_empty():
             return
         
-        current_index = (len(self.heap) - 1)
-
-        # TODO : How can I calcuate index of last non-leaf node.
+        # Calculation of index of last non-leaf node in max-heap => (leaf_nodex_index - 1) // 2
+        current_index = (self.get_size() - 1 - 1) // 2 
+        
         while current_index >= 0:
             self.sift_down(current_index)
             current_index -= 1
