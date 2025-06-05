@@ -27,6 +27,7 @@ class BinarySearchTree:
 
         node.left = self.delete_using_post_traversal(node.left)
         node.right = self.delete_using_post_traversal(node.right)
+        
         return None
 
     def delete_value(self, value: int) -> None:
