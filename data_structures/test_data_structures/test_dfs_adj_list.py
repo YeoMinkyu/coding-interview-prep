@@ -2,7 +2,8 @@ import unittest
 
 # Assuming your DFS implementation is in a module named dfs_adj_list
 # Adjust the import path based on your project structure
-from data_structures.graph.dfs_adj_list import dfs_recursive, dfs_iterative, has_cycle  # Replace with actual module path
+from data_structures.graph.dfs_adj_list import dfs_recursive, dfs_iterative, has_cycle, count_connected_components, \
+    count_connected_components_iteration, find_scc, is_bipartite  # Replace with actual module path
 
 class TestDFS(unittest.TestCase):
     def setUp(self):
@@ -80,6 +81,53 @@ class TestDFS(unittest.TestCase):
         """Test has_cycle on a linear path that loops back to form a cycle."""
         self.graph = {0: [1], 1: [0, 2], 2: [1, 3], 3: [2, 0]}
         self.assertTrue(has_cycle(self.graph, 0))
+
+    def test_count_connected_components(self):
+        """Test count_connected_components on an undirected graph"""
+        self.graph = {0: [1, 2], 1: [0, 3], 2: [0, 3], 3: [1, 2], 4: [5, 6], 5: [4, 7], 6: [4, 7], 7: [5, 6]}
+        self.assertEqual(count_connected_components(self.graph), 2)
+        self.assertEqual(count_connected_components_iteration(self.graph), 2)
+
+        self.graph = {0: [1], 1: [0, 2], 2: [1], 3: [4, 5], 4: [3, 5], 5: [3, 6], 6: [5], 7:[]}
+        self.assertEqual(count_connected_components_iteration(self.graph), 3)
+
+        self.graph = {}
+        self.assertEqual(count_connected_components_iteration(self.graph), 0)
+
+    def test_find_scc(self):
+        self.graph = {0: [1], 1: [2], 2: [0, 3], 3: [4], 4: [3]}
+
+        expected = [{0, 1, 2}, {3, 4}]
+        result = find_scc(self.graph)
+        self.assertEqual(set(frozenset(component) for component in result), set(frozenset(component) for component in expected)) # To check the answer is correct
+
+        self.graph = {0: [1], 1: [], 2: []}
+        expected = [{0}, {1}, {2}]
+        result = find_scc(self.graph)
+        self.assertEqual(set(frozenset(component) for component in result), set(frozenset(component) for component in expected))
+
+        self.graph = {}
+        expected = []
+        result = find_scc(self.graph)
+        self.assertEqual(set(frozenset(component) for component in result), set(frozenset(component) for component in expected))
+
+        self.graph = {0: [0]}
+        expected = [{0}]
+        result = find_scc(self.graph)
+        self.assertEqual(set(frozenset(component) for component in result), set(frozenset(component) for component in expected))
+
+    def test_is_bipartite(self):
+        self.graph = {0: [1, 3], 1: [0, 2], 2: [1, 3], 3: [0, 2]}
+        self.assertTrue(is_bipartite(self.graph))
+
+        self.graph = {0: [1, 2], 1: [0, 2], 2: [0, 1]}
+        self.assertFalse(is_bipartite(self.graph))
+
+        self.graph = {}
+        self.assertTrue(is_bipartite(self.graph))
+
+        self.graph = {0: [1], 1: [0], 2: []}
+        self.assertTrue(is_bipartite(self.graph))
 
 if __name__ == "__main__":
     unittest.main()

@@ -30,7 +30,7 @@ class BFS:
         self.bfs_result = []
 
         self.queue.append(start)
-        self.visited_vertices[start] = 0
+        self.visited_vertices[start] = 0 # check whether the edge is visited and save distance from the start
         self.parents[start] = None
 
         while self.queue:
