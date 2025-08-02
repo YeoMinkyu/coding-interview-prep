@@ -48,16 +48,63 @@ Since the matrix always uses O(V^2) space, it’s only efficient when there are 
 As an example, in algorithms where I need to check all pairs of nodes for connectivity, or when edge lookups are very frequent, adjacency matrices are a good fit—especially for dense graphs.”
 
 2. **What’s the time and space complexity of BFS and DFS, and why?**
-3. **How would you modify DFS or BFS to find all connected components in an undirected graph?**
+
+**A strong answer:**
 
 ---
 
-## **3. LeetCode Problems for Practice**
+### **Time Complexity: `O(|V| + |E|)`**
 
-* **Number of Provinces ([LeetCode 547](https://leetcode.com/problems/number-of-provinces/)):**
-  Great for practicing adjacency matrix and finding components via BFS/DFS.
-* **Course Schedule ([LeetCode 207](https://leetcode.com/problems/course-schedule/)):**
-  Practice adjacency list and DFS (cycle detection/topological sort).
+* Both **BFS** and **DFS** have time complexity `O(|V| + |E|)`, where `|V|` is the number of vertices (nodes) and `|E|` is the number of edges.
+* **Why?**
+
+  * Every node is visited at most once.
+  * For each node, you look at each of its edges (either from its adjacency list, or by scanning its neighbors).
+  * So, across the whole traversal, every edge is considered at most twice (once from each end in an undirected graph).
+  * This leads to total work:
+
+    * **BFS/DFS visit each node once:** `O(|V|)`
+    * **Look at each edge once:** `O(|E|)`
+    * Combined: `O(|V| + |E|)`
+
+---
+
+### **Space Complexity**
+
+* **BFS:**
+
+  * Uses a queue to keep track of nodes at the current “level.”
+  * In the worst case (for example, a very wide tree), the queue might contain up to `O(|V|)` nodes.
+  * Also needs a “visited” set or array (`O(|V|)`).
+  * **Space:** `O(|V|)`
+* **DFS:**
+
+  * Uses a stack (explicit or via recursion). In the worst case (e.g., a long linear chain), the stack can grow up to `O(|V|)` deep.
+  * Needs a “visited” set or array (`O(|V|)`).
+  * **Space:** `O(|V|)`
+
+---
+
+### **Key Differences (for clarity)**
+
+* **Traversal order:**
+
+  * *BFS* explores nodes in layers (all nodes at distance 1, then 2, etc.), which is good for finding shortest paths in unweighted graphs.
+  * *DFS* explores as deep as possible before backtracking, which is useful for tasks like cycle detection, topological sort, etc.
+* **Space nuance:**
+
+  * BFS can require lots of space if a level is very “wide” (many nodes at the same depth).
+  * DFS uses stack space proportional to the *depth* of the search.
+
+---
+
+
+## **If You’re Asked in an Interview, You Can Say:**
+
+> “Both BFS and DFS run in O(V + E) time, since they visit every node and explore every edge exactly once. Their space complexity is O(V) due to the need to keep track of visited nodes and, for BFS, the queue, or for DFS, the stack. The difference is in their traversal order—BFS explores nodes level by level, which can require more space for very wide graphs, while DFS explores as deep as possible, using space proportional to the depth of the graph.”
+
+
+3. **How would you modify DFS or BFS to find all connected components in an undirected graph?**
 
 ---
 
