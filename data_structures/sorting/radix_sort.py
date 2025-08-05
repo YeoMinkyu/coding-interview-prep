@@ -28,7 +28,7 @@ def radix_sort(array: list[int]) -> list[int]:
     largest = max(positive_array)
     d = len(str(largest))
 
-    for exp in range(d):
+    for exp in range(d): # d
         positive_array = _counting_sort_for_digit(positive_array, exp)
 
     if len(negative_array) > 0:
@@ -63,11 +63,11 @@ def _counting_sort_for_digit(array: list[int], exp: int) -> list[int]:
     sorted_array = []
     divisor = k ** exp
 
-    for num in array:
+    for num in array: # n
         count_index = int((num // divisor) % k)
         counting_buckets[count_index].append(num)
 
-    for sub_array in counting_buckets:
+    for sub_array in counting_buckets: # k
         if sub_array:
             sorted_array.extend(sub_array)
 
