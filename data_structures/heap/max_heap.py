@@ -17,8 +17,21 @@ class MaxHeap:
         """
 
         self.heap.append(value)
-        self.sift_up(len(self.heap) - 1)
+
+        heap_size = self.get_size()
+
+        if heap_size == 1:
+            return
     
+        self.sift_up(heap_size - 1)
+
+        
+
+        """
+        self.heap.append(value)
+        self.sift_up(len(self.heap) - 1)
+        """
+
 
     def sift_up(self, index: int) -> None:
         """
@@ -31,6 +44,19 @@ class MaxHeap:
             - Single element.
         Hint: Compare with parent and swap if larger.
         """
+        parent = (index - 1) // 2
+
+        if index <= 0 or len(self.heap) <= 1:
+            return
+
+        if self.heap[parent] < self.heap[index]:
+            self.heap[parent], self.heap[index] = self.heap[index], self.heap[parent]
+        else:
+            return
+        
+        self.sift_up(parent)
+
+        """
         if index == 0:
             return
         
@@ -41,7 +67,8 @@ class MaxHeap:
             self.heap[parent_index], self.heap[index] = self.heap[index], self.heap[parent_index]
             self.sift_up(parent_index)
         else:
-            return 
+            return
+        """
 
     def get_max(self) -> int:
         """
@@ -94,6 +121,20 @@ class MaxHeap:
             - Single element.
         Hint: Swap root with last element, remove last, and sift down.
         """
+
+        if self.is_empty():
+            raise ValueError("Heap is empty.")
+
+        if len(self.heap) == 1:
+            return self.heap.pop()
+                
+        self.heap[0], self.heap[len(self.heap)-1] = self.heap[len(self.heap)-1], self.heap[0]
+        max_value = self.heap.pop()
+
+        self.sift_down(0)
+
+        return max_value
+        """
         if self.is_empty():
             raise ValueError("Empty heap")
         
@@ -105,6 +146,7 @@ class MaxHeap:
             self.heap.pop()
             self.sift_down(0)
             return max_value
+        """
 
     def sift_down(self, index: int) -> None:
         """
@@ -116,6 +158,23 @@ class MaxHeap:
             - Sifting from leaf (no-op).
             - Single element.
         Hint: Compare with largest child and swap if smaller.
+        """
+
+        left_child = (2*index) + 1
+        right_child = (2*index) + 2
+        
+        largest = index
+        heap_size = len(self.heap)
+
+        if left_child < heap_size and self.heap[largest] < self.heap[left_child]:
+            largest = left_child
+        if right_child < heap_size and self.heap[largest] < self.heap[right_child]:
+            largest = right_child
+
+        if largest != index:
+            self.heap[index], self.heap[largest] = self.heap[largest], self.heap[index]
+            self.sift_down(largest)
+
         """
         if self.is_empty():
             return
@@ -135,6 +194,7 @@ class MaxHeap:
 
             self.heap[index], self.heap[largest] = self.heap[largest], self.heap[index]
             index = largest
+        """
 
         """
         Recursive Version of sift down
@@ -173,6 +233,27 @@ class MaxHeap:
             - Removing root.
         Hint: Replace with last element, remove last, and sift up/down as needed.
         """
+        heap_size = self.get_size()
+
+        if index < 0 or index >= heap_size:
+            raise ValueError("Invalid index.")
+        
+        if index == 0:
+            self.extract_max()
+            return
+
+        if index == heap_size - 1:
+            self.heap.pop()
+            return
+        
+
+        self.heap[index], self.heap[heap_size-1] = self.heap[heap_size - 1], self.heap[index]
+
+        self.heap.pop()
+
+        self.sift_down(index)
+
+        """
         if index < 0 or index > (len(self.heap) - 1):
             raise ValueError("Index is invalid")
         if index == (len(self.heap) - 1): # Remove last element
@@ -188,6 +269,7 @@ class MaxHeap:
             self.sift_up(index)
         else:
             self.sift_down(index)
+        """
 
     def heapify(self, array: list[int]) -> None:
         """
@@ -200,6 +282,17 @@ class MaxHeap:
             - Single element.
         Hint: Start from last non-leaf node and sift down each node.
         """
+
+        self.heap.extend(array)
+        heap_size = self.get_size()
+
+        index = (heap_size - 1 - 1) // 2
+
+        while index >= 0:
+            self.sift_down(index)
+            index -= 1
+
+        """
         self.heap = array
 
         if self.is_empty():
@@ -211,6 +304,7 @@ class MaxHeap:
         while current_index >= 0:
             self.sift_down(current_index)
             current_index -= 1
+        """
             
 
     def heap_sort(self, array: list[int]) -> None:
@@ -225,7 +319,20 @@ class MaxHeap:
             - Array with duplicates.
         Hint: Heapify array, then repeatedly extract max and place at end.
         """
+        
+        self.heapify(array)
 
+        if self.get_size() <= 1:
+            return array
+
+        heap_size = self.get_size()
+
+        while heap_size > 1:
+            self.heap[0], self.heap[heap_size-1] = self.heap[heap_size-1], self.heap[0]
+            heap_size -= 1
+            self._sift_down_for_heap_sort(0, heap_size)
+
+        """
         self.heapify(array)
         
         heap_len = len(self.heap)
@@ -234,9 +341,22 @@ class MaxHeap:
             self.heap[0], self.heap[heap_len-1] = self.heap[heap_len-1], self.heap[0]
             heap_len -= 1
             self._sift_down_for_heap_sort(0, heap_len)
+        """
 
 
     def _sift_down_for_heap_sort(self, index: int, heap_len: int) -> None:
+        largest = index
+        left_child, right_child = 2*index + 1, 2*index + 2
+
+        if left_child < heap_len and self.heap[left_child] > self.heap[largest]:
+            largest = left_child
+        if right_child < heap_len and self.heap[right_child] > self.heap[largest]:
+            largest = right_child
+        if largest != index:
+            self.heap[largest], self.heap[index] = self.heap[index], self.heap[largest]
+            self._sift_down_for_heap_sort(index, largest)
+        
+        """
         parent = index
         left_child_index = (2 * index) + 1
         right_child_index = (2 * index) + 2
@@ -258,3 +378,4 @@ class MaxHeap:
                 if  self.heap[parent] < self.heap[right_child_index]:
                     self.heap[parent], self.heap[right_child_index] = self.heap[right_child_index], self.heap[parent]
                     self._sift_down_for_heap_sort(right_child_index, heap_len)
+        """
