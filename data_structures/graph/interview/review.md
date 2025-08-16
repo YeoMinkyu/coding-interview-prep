@@ -38,22 +38,20 @@
 
 ## **2. Quiz/Interview Questions**
 
-1. **When would you prefer an adjacency matrix over an adjacency list?**
+### 1. **When would you prefer an adjacency matrix over an adjacency list?**
 - In an adjacency matrix, when the graph is dense, the memory space to represent an adjacency matrix is O(V^2), is not much worse than listing every edge, since the list would also be very large.
 - In this case, if I often check whether an edge exists between two nodes, the constant time lookup of matrix is a big win.
 
 **Strong answer**
-- “I’d use an adjacency matrix when the graph is dense, meaning it has a large fraction of all possible edges. The adjacency matrix allows me to check for the existence (or weight) of an edge between any two nodes in constant time, O(1), by direct array indexing. This is much faster than the O(degree(u)) lookup needed in an adjacency list.
+- “I’d use an adjacency matrix **when the graph is dense**, meaning it has a large fraction of all possible edges. The adjacency matrix allows me to check for the existence (or weight) of an edge between any two nodes in **constant time, O(1)**, by **direct array indexing**. This is much faster than the O(degree(u)) lookup needed in an adjacency list.
 Since the matrix always uses O(V^2) space, it’s only efficient when there are enough edges to justify that cost. For sparse graphs, the space overhead is too large, and adjacency lists are preferable.
 As an example, in algorithms where I need to check all pairs of nodes for connectivity, or when edge lookups are very frequent, adjacency matrices are a good fit—especially for dense graphs.”
 
-2. **What’s the time and space complexity of BFS and DFS, and why?**
+### 2. **What’s the time and space complexity of BFS and DFS, and why?**
 
-**A strong answer:**
+**Strong answer:**
 
----
-
-### **Time Complexity: `O(|V| + |E|)`**
+**Time Complexity: `O(|V| + |E|)`**
 
 * Both **BFS** and **DFS** have time complexity `O(|V| + |E|)`, where `|V|` is the number of vertices (nodes) and `|E|` is the number of edges.
 * **Why?**
@@ -103,10 +101,31 @@ As an example, in algorithms where I need to check all pairs of nodes for connec
 
 > “Both BFS and DFS run in O(V + E) time, since they visit every node and explore every edge exactly once. Their space complexity is O(V) due to the need to keep track of visited nodes and, for BFS, the queue, or for DFS, the stack. The difference is in their traversal order—BFS explores nodes level by level, which can require more space for very wide graphs, while DFS explores as deep as possible, using space proportional to the depth of the graph.”
 
-
-3. **How would you modify DFS or BFS to find all connected components in an undirected graph?**
-
 ---
+
+## 250816
+### Quiz / Interview Questions
+
+Q1:
+Why does BFS guarantee the shortest path in an unweighted graph, but DFS does not?
+
+Q2:
+If we store (node, path) in BFS instead of (node, distance), what trade-offs are we making in terms of time and space complexity?
+
+Q3:
+How would you modify BFS to not only return the distance but also reconstruct the exact path from the source to the destination?
+
+## 250816
+### Quiz / Interview Questions
+
+### Q1: Why does BFS guarantee the shortest path in an unweighted graph, but DFS does not?
+- In an unweighted graph, BFS explores nodes level by level from the source. That means the first time we see a node, we’ve already used the fewest edges possible to get there. So BFS guarantees the shortest path.
+On the other hand, DFS explores as deep as possible before backtracking. It might reach a node through a longer path before it ever explores the shorter path, so it cannot guarantee the shortest path.
+That’s why BFS is preferred for shortest path problems in unweighted graphs, while DFS is better for exploring or detecting structures like cycles or connectivity.
+
+### Q2: If we store (node, path) in BFS instead of (node, distance), what trade-offs are we making in terms of time and space complexity?
+
+### Q3: How would you modify BFS to not only return the distance but also reconstruct the exact path from the source to the destination?
 
 ## **4. Common Mistakes or Misconceptions**
 
